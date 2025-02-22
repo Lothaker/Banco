@@ -1,0 +1,35 @@
+CREATE DATABASE IF NOT EXISTS backend;
+USE backend;
+
+CREATE TABLE IF NOT EXISTS Currency (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(50) NOT NULL,
+    type VARCHAR(10) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS ExchangeRate (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    date DATE NOT NULL,
+    daily_variation FLOAT NOT NULL,
+    daily_rate FLOAT NOT NULL,
+    currency_id INT NOT NULL,
+    FOREIGN KEY (currency_id) REFERENCES Currency(id)
+);
+
+CREATE TABLE IF NOT EXISTS Investor (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS InvestmentHistory (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    initial_amount FLOAT NOT NULL,
+    months INT NOT NULL,
+    interest_rate FLOAT NOT NULL,
+    final_amount FLOAT NOT NULL,
+    currency_id INT NOT NULL,
+    investor_id INT NOT NULL,
+    FOREIGN KEY (currency_id) REFERENCES Currency(id),
+    FOREIGN KEY (investor_id) REFERENCES Investor(id)
+);
